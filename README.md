@@ -105,12 +105,48 @@ dicebear/api:3 generates PNG -> response flows back to client
 
 ### Helm Chart
 
-The companion Helm chart lives in the [edge builder](https://gitlab.graynet.lan/inf/flakes/builder) repo at `services/apps/avatars/`. It deploys:
+The chart is published to `oci://ghcr.io/kettleofketchup/charts/dicebear-shim` and lives in the `chart/` directory of this repo. It deploys:
 
 - **dicebear/api:3** -- self-hosted DICEbear avatar generator
 - **dicebear-shim** -- Gravatar URL translator / reverse proxy
 - **CoreDNS override** -- rewrites `gravatar.com` DNS to Traefik
 - **Traefik IngressRoute** -- routes intercepted requests to the shim
+
+```sh
+# Install directly from OCI registry
+helm install avatars oci://ghcr.io/kettleofketchup/charts/dicebear-shim
+
+# Or use as a dependency in Chart.yaml
+# dependencies:
+#   - name: dicebear-shim
+#     version: "0.1.0"
+#     repository: "oci://ghcr.io/kettleofketchup/charts"
+```
+
+### Helm Values
+
+#### IngressRoute (direct access)
+
+The IngressRoute supports two modes for setting the hostname:
+
+```yaml
+# Option 1: explicit host
+ingressRoute:
+  enabled: true
+  host: avatars.example.com
+
+# Option 2: subdomain + baseDomain (supports global.baseDomain)
+ingressRoute:
+  enabled: true
+  subdomain: avatars
+  baseDomain: example.com
+  # OR set global.baseDomain (takes precedence)
+
+global:
+  baseDomain: example.com
+```
+
+Priority: `host` > `subdomain` + `global.baseDomain` > `subdomain` + `baseDomain`
 
 ### CoreDNS Patch
 

@@ -1,4 +1,10 @@
 {{- if .Values.ingressRoute.enabled }}
+{{- $baseDomain := ((.Values.global).baseDomain) | default .Values.ingressRoute.baseDomain | default "" }}
+{{- $host := .Values.ingressRoute.host }}
+{{- if and (not $host) .Values.ingressRoute.subdomain $baseDomain }}
+{{- $host = printf "%s.%s" .Values.ingressRoute.subdomain $baseDomain }}
+{{- end }}
+{{- if $host }}
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -11,7 +17,7 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   routes:
-    - match: Host(`{{ .Values.ingressRoute.host }}`)
+    - match: Host(`{{ $host }}`)
       kind: Rule
       services:
         - name: {{ include "dicebear-shim.fullname" . }}-shim
@@ -24,4 +30,5 @@ spec:
   tls:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+{{- end }}
 {{- end }}

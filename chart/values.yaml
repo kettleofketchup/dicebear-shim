@@ -96,9 +96,15 @@ gravatar:
 # Traefik IngressRoute (direct access via subdomain)
 # =============================================================================
 
+global: {}
+
 ingressRoute:
   enabled: false
+  # Option 1: set host directly
   host: ""
+  # Option 2: construct from subdomain + baseDomain (or global.baseDomain)
+  subdomain: avatars
+  baseDomain: ""
   entryPoints:
     - websecure
   tls: {}
