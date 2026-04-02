@@ -7,7 +7,7 @@ VERSION := `git describe --tags --always 2>/dev/null || echo "dev"`
 COMMIT := `git rev-parse --short HEAD 2>/dev/null || echo "unknown"`
 DATE := `date -u +%Y-%m-%dT%H:%M:%SZ`
 
-DOCKER_REGISTRY := "ghcr.io/kettleofketchup/diceavatar-shim"
+DOCKER_REGISTRY := "ghcr.io/kettleofketchup/dicebear-shim"
 DOCKER_TAG := DOCKER_REGISTRY + "/" + TOOL_NAME + ":" + VERSION
 DOCKER_LATEST := DOCKER_REGISTRY + "/" + TOOL_NAME + ":latest"
 DOCKERFILE := PROJECT_ROOT + "/docker/Dockerfile." + TOOL_NAME

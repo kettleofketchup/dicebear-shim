@@ -19,9 +19,9 @@ ARG BUILD_DATE=unknown
 RUN cd src/dicebear-shim && \
     CGO_ENABLED=0 GOOS=linux go build -trimpath \
     -ldflags "-s -w \
-        -X github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version.Version=${VERSION} \
-        -X github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version.Commit=${COMMIT} \
-        -X github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version.BuildDate=${BUILD_DATE}" \
+        -X github.com/kettleofketchup/dicebear-shim/src/dicebear-shim/version.Version=${VERSION} \
+        -X github.com/kettleofketchup/dicebear-shim/src/dicebear-shim/version.Commit=${COMMIT} \
+        -X github.com/kettleofketchup/dicebear-shim/src/dicebear-shim/version.BuildDate=${BUILD_DATE}" \
     -o /dicebear-shim .
 
 # Runtime stage

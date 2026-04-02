@@ -7,7 +7,7 @@ DIST_DIR := env_var("PWD") + "/dist"
 VERSION := `git describe --tags --always 2>/dev/null || echo "dev"`
 COMMIT := `git rev-parse --short HEAD 2>/dev/null || echo "unknown"`
 DATE := `date -u +%Y-%m-%dT%H:%M:%SZ`
-VERSION_PKG := "github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version"
+VERSION_PKG := "github.com/kettleofketchup/dicebear-shim/src/dicebear-shim/version"
 LDFLAGS := "-s -w -X " + VERSION_PKG + ".Version=" + VERSION + " -X " + VERSION_PKG + ".Commit=" + COMMIT + " -X " + VERSION_PKG + ".BuildDate=" + DATE
 
 # Build for all platforms

@@ -8,8 +8,8 @@ dicebear-shim CLI tool.
 ### From Source
 
 ```sh
-git clone https://github.com/kettleofketchup/diceavatar-shim.git
-cd diceavatar-shim
+git clone https://github.com/kettleofketchup/dicebear-shim.git
+cd dicebear-shim
 ./dev  # Bootstrap environment
 just build
 ```
@@ -17,8 +17,8 @@ just build
 ### Docker
 
 ```sh
-docker pull ghcr.io/kettleofketchup/diceavatar-shim/dicebear-shim:latest
-docker run --rm ghcr.io/kettleofketchup/diceavatar-shim/dicebear-shim:latest --help
+docker pull ghcr.io/kettleofketchup/dicebear-shim/dicebear-shim:latest
+docker run --rm ghcr.io/kettleofketchup/dicebear-shim/dicebear-shim:latest --help
 ```
 
 ## Usage

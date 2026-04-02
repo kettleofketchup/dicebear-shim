@@ -13,7 +13,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-"github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version"
+"github.com/kettleofketchup/dicebear-shim/src/dicebear-shim/version"
 )
 
 // GitHubRelease represents the structure of a GitHub release API response
@@ -110,7 +110,7 @@ func detectReleaseSource() (platform string, repoPath string, err error) {
 	if err != nil {
 		// Fallback to configured platform
 
-		return "github", "kettleofketchup/diceavatar-shim", nil
+		return "github", "kettleofketchup/dicebear-shim", nil
 
 	}
 

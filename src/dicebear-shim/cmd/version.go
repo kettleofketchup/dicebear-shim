@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-"github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version"
+"github.com/kettleofketchup/dicebear-shim/src/dicebear-shim/version"
 )
 
 var versionCmd = &cobra.Command{
