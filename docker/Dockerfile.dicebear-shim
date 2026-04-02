@@ -4,11 +4,11 @@ FROM golang:1.23-bookworm AS builder
 WORKDIR /build
 
 # Copy go mod files first for caching
-COPY src/go-github-template/go.mod src/go-github-template/go.sum* ./src/go-github-template/
-RUN cd src/go-github-template && go mod download
+COPY src/dicebear-shim/go.mod src/dicebear-shim/go.sum* ./src/dicebear-shim/
+RUN cd src/dicebear-shim && go mod download
 
 # Copy source code
-COPY src/go-github-template/ ./src/go-github-template/
+COPY src/dicebear-shim/ ./src/dicebear-shim/
 
 # Build arguments for version injection
 ARG VERSION=dev
@@ -16,13 +16,13 @@ ARG COMMIT=unknown
 ARG BUILD_DATE=unknown
 
 # Build the binary
-RUN cd src/go-github-template && \
+RUN cd src/dicebear-shim && \
     CGO_ENABLED=0 GOOS=linux go build -trimpath \
     -ldflags "-s -w \
-        -X gitlab.lan/go-github-template/src/go-github-template/version.Version=${VERSION} \
-        -X gitlab.lan/go-github-template/src/go-github-template/version.Commit=${COMMIT} \
-        -X gitlab.lan/go-github-template/src/go-github-template/version.BuildDate=${BUILD_DATE}" \
-    -o /go-github-template .
+        -X github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version.Version=${VERSION} \
+        -X github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version.Commit=${COMMIT} \
+        -X github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version.BuildDate=${BUILD_DATE}" \
+    -o /dicebear-shim .
 
 # Runtime stage
 FROM debian:bookworm-slim
@@ -39,6 +39,6 @@ RUN if ls /tmp/certs/*.pem 1>/dev/null 2>&1; then \
     fi && rm -rf /tmp/certs
 
 # Copy binary from builder
-COPY --from=builder /go-github-template /usr/local/bin/go-github-template
+COPY --from=builder /dicebear-shim /usr/local/bin/dicebear-shim
 
-ENTRYPOINT ["go-github-template"]
+ENTRYPOINT ["dicebear-shim"]

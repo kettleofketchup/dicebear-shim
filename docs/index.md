@@ -1,6 +1,6 @@
-# go-github-template
+# dicebear-shim
 
-Welcome to the go-github-template documentation.
+Welcome to the dicebear-shim documentation.
 
 ## Quick Start
 
@@ -14,13 +14,13 @@ Welcome to the go-github-template documentation.
 just build
 
 # Run
-./bin/go-github-template --help
+./bin/dicebear-shim --help
 ```
 
 ### Version
 
 ```sh
-./bin/go-github-template version
+./bin/dicebear-shim version
 ```
 
 ## Development
@@ -43,8 +43,8 @@ just docs::build    # Build static site
 ## Project Structure
 
 ```
-go-github-template/
-├── src/go-github-template/    # Go source code
+dicebear-shim/
+├── src/dicebear-shim/    # Go source code
 │   ├── cmd/                # CLI commands
 │   ├── internal/           # Private packages
 │   └── version/            # Version info

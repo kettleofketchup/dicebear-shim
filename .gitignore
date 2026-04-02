@@ -36,5 +36,5 @@ go.work.sum
 # Node (if using any JS tooling)
 node_modules/
 
-# Claude Code local settings
-.claude/settings.local.json
+# Claude Code
+.claude/

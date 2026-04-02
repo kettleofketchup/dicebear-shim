@@ -1,7 +1,7 @@
 [project]
-name = "go-github-template"
+name = "dicebear-shim"
 version = "0.1.0"
-description = "go-github-template documentation"
+description = "dicebear-shim documentation"
 requires-python = ">=3.11"
 dependencies = [
     "mkdocs>=1.6.1",

@@ -2,7 +2,7 @@
 # Call as: just cicd::lint, just cicd::test, etc.
 # These recipes are called by GitLab CI / GitHub Actions
 
-TOOL_NAME := "go-github-template"
+TOOL_NAME := "dicebear-shim"
 TOOL_FOLDER := env_var("PWD") + "/src/" + TOOL_NAME
 BIN_DIR := env_var("PWD") + "/bin"
 
@@ -10,7 +10,7 @@ VERSION := `git describe --tags --always 2>/dev/null || echo "dev"`
 COMMIT := `git rev-parse --short HEAD 2>/dev/null || echo "unknown"`
 DATE := `date -u +%Y-%m-%dT%H:%M:%SZ`
 
-DOCKER_REGISTRY := "ghcr.io/kettleofketchup/go-github-template"
+DOCKER_REGISTRY := "ghcr.io/kettleofketchup/diceavatar-shim"
 DOCKER_TAG := DOCKER_REGISTRY + "/" + TOOL_NAME + ":" + VERSION
 
 # Run linter

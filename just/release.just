@@ -1,13 +1,13 @@
 # Cross-compilation release recipes
 # Call as: just release::all, just release::linux, etc.
 
-TOOL_NAME := "go-github-template"
+TOOL_NAME := "dicebear-shim"
 TOOL_FOLDER := env_var("PWD") + "/src/" + TOOL_NAME
 DIST_DIR := env_var("PWD") + "/dist"
 VERSION := `git describe --tags --always 2>/dev/null || echo "dev"`
 COMMIT := `git rev-parse --short HEAD 2>/dev/null || echo "unknown"`
 DATE := `date -u +%Y-%m-%dT%H:%M:%SZ`
-VERSION_PKG := "gitlab.lan/go-github-template/src/go-github-template/version"
+VERSION_PKG := "github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version"
 LDFLAGS := "-s -w -X " + VERSION_PKG + ".Version=" + VERSION + " -X " + VERSION_PKG + ".Commit=" + COMMIT + " -X " + VERSION_PKG + ".BuildDate=" + DATE
 
 # Build for all platforms

@@ -1,4 +1,4 @@
-# go-github-template - Go CLI project
+# dicebear-shim - Go CLI project
 # Run `just --list` to see all available recipes
 
 set quiet
@@ -19,8 +19,8 @@ mod copier 'just/copier.just'
 import 'just/dev.just'
 
 # Variables
-TOOL_NAME := "go-github-template"
-PROJECT_NAME := "go-github-template"
+TOOL_NAME := "dicebear-shim"
+PROJECT_NAME := "dicebear-shim"
 TOOL_FOLDER := env_var("PWD") + "/src/" + TOOL_NAME
 
 # List all available recipes

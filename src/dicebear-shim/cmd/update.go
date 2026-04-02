@@ -13,7 +13,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-"github.com/kettleofketchup/go-github-template/src/go-github-template/version"
+"github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version"
 )
 
 // GitHubRelease represents the structure of a GitHub release API response
@@ -46,8 +46,8 @@ type ReleaseInfo struct {
 
 var updateCmd = &cobra.Command{
 	Use:   "update",
-	Short: "Update go-github-template to the latest version",
-	Long: `Download and install the latest version of go-github-template from releases.
+	Short: "Update dicebear-shim to the latest version",
+	Long: `Download and install the latest version of dicebear-shim from releases.
 
 This command automatically detects the release source from git remote URL
 and downloads the appropriate binary for your platform.`,
@@ -110,7 +110,7 @@ func detectReleaseSource() (platform string, repoPath string, err error) {
 	if err != nil {
 		// Fallback to configured platform
 
-		return "github", "kettleofketchup/go-github-template", nil
+		return "github", "kettleofketchup/diceavatar-shim", nil
 
 	}
 
@@ -180,7 +180,7 @@ func getGitHubRelease(repoPath string) (*ReleaseInfo, error) {
 	// Find asset for current OS/arch
 	assetName := getBinaryName()
 	for _, asset := range release.Assets {
-		if asset.Name == assetName || asset.Name == "go-github-template" {
+		if asset.Name == assetName || asset.Name == "dicebear-shim" {
 			return &ReleaseInfo{
 				TagName:     release.TagName,
 				DownloadURL: asset.BrowserDownloadURL,
@@ -231,7 +231,7 @@ func getGitLabRelease(repoPath string) (*ReleaseInfo, error) {
 		// Find asset for current OS/arch
 		assetName := getBinaryName()
 		for _, link := range release.Assets.Links {
-			if link.Name == assetName || link.Name == "go-github-template" {
+			if link.Name == assetName || link.Name == "dicebear-shim" {
 				return &ReleaseInfo{
 					TagName:     release.TagName,
 					DownloadURL: link.URL,
@@ -253,7 +253,7 @@ func getBinaryName() string {
 	goos := runtime.GOOS
 	goarch := runtime.GOARCH
 
-	name := fmt.Sprintf("%s_%s_%s", "go-github-template", goos, goarch)
+	name := fmt.Sprintf("%s_%s_%s", "dicebear-shim", goos, goarch)
 	if goos == "windows" {
 		name += ".exe"
 	}
@@ -269,7 +269,7 @@ func downloadAndInstall(downloadURL string) error {
 	}
 
 	// Create temp file
-	tmpFile := filepath.Join(os.TempDir(), "go-github-template-update")
+	tmpFile := filepath.Join(os.TempDir(), "dicebear-shim-update")
 
 	fmt.Printf("Downloading from %s...\n", downloadURL)
 

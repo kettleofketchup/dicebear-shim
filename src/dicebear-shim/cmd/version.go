@@ -4,15 +4,15 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-"github.com/kettleofketchup/go-github-template/src/go-github-template/version"
+"github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version"
 )
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print version information",
-	Long:  `Print the version, commit hash, and build date of go-github-template.`,
+	Long:  `Print the version, commit hash, and build date of dicebear-shim.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("go-github-template %s\n", version.Version)
+		fmt.Printf("dicebear-shim %s\n", version.Version)
 		fmt.Printf("  Commit:     %s\n", version.Commit)
 		fmt.Printf("  Built:      %s\n", version.BuildDate)
 	},

@@ -1,13 +1,13 @@
-# Claude Code Instructions for go-github-template
+# Claude Code Instructions for dicebear-shim
 
 ## Project Overview
 
-go-github-template is a Go CLI tool built with Cobra.
+dicebear-shim is a Go CLI tool built with Cobra.
 
 ## Architecture
 
 ```
-src/go-github-template/
+src/dicebear-shim/
 ├── cmd/           # CLI commands (Cobra)
 ├── internal/      # Private packages
 └── version/       # Build-time version info
@@ -29,15 +29,15 @@ Modules are namespaced with `::` syntax (e.g., `just docker::build`).
 
 ```sh
 # Build (top-level aliases)
-just build                  # Build go-github-template binary → bin/go-github-template
+just build                  # Build dicebear-shim binary → bin/dicebear-shim
 just test                   # Run all tests
 just lint                   # Format + lint
 just run                    # Build and run
 
 # Module commands
-just go::build go-github-template    # Build with explicit tool name
-just go::format go-github-template   # Format code only
-just go::tidy go-github-template     # Tidy modules
+just go::build dicebear-shim    # Build with explicit tool name
+just go::format dicebear-shim   # Format code only
+just go::tidy dicebear-shim     # Tidy modules
 just go::clean              # Remove bin/ and dist/
 ```
 
@@ -66,7 +66,7 @@ just release::linux         # Linux only (amd64 + arm64)
 
 ### Adding Commands
 
-Create new commands in `src/go-github-template/cmd/`:
+Create new commands in `src/dicebear-shim/cmd/`:
 
 ```go
 var exampleCmd = &cobra.Command{

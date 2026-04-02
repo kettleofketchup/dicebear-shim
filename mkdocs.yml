@@ -1,5 +1,5 @@
-site_name: go-github-template Documentation
-site_description: Documentation for go-github-template
+site_name: dicebear-shim Documentation
+site_description: Documentation for dicebear-shim
 site_dir: public
 
 theme:

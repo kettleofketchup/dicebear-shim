@@ -1,4 +1,4 @@
-module github.com/kettleofketchup/go-github-template/src/go-github-template
+module github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim
 
 go 1.23
 

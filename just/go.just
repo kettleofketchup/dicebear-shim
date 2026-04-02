@@ -7,9 +7,9 @@ COMMIT := `git rev-parse --short HEAD 2>/dev/null || echo "unknown"`
 DATE := `date -u +%Y-%m-%dT%H:%M:%SZ`
 
 # ldflags for version injection
-VERSION_PKG := "github.com/kettleofketchup/go-github-template/src/go-github-template/version"
+VERSION_PKG := "github.com/kettleofketchup/diceavatar-shim/src/dicebear-shim/version"
 LDFLAGS := "-s -w -X " + VERSION_PKG + ".Version=" + VERSION + " -X " + VERSION_PKG + ".Commit=" + COMMIT + " -X " + VERSION_PKG + ".BuildDate=" + DATE
-TOOL_FOLDER := env_var("PWD") + "/src/go-github-template"
+TOOL_FOLDER := env_var("PWD") + "/src/dicebear-shim"
 BIN_DIR := env_var("PWD") + "/bin"
 
 # Build the Go binary

@@ -62,7 +62,7 @@ jobs:
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
-          name: go-github-template
+          name: dicebear-shim
           path: bin/
 
   docker:
@@ -87,11 +87,11 @@ jobs:
 
       - name: Build and push
         run: |
-          TAG="ghcr.io/kettleofketchup/go-github-template/go-github-template:${GITHUB_REF_NAME}"
+          TAG="ghcr.io/kettleofketchup/diceavatar-shim/dicebear-shim:${GITHUB_REF_NAME}"
           just cicd::docker $TAG
           docker push $TAG
           if echo "${GITHUB_REF_NAME}" | grep -qE '^v[0-9]+\.[0-9]+'; then
-            LATEST="ghcr.io/kettleofketchup/go-github-template/go-github-template:latest"
+            LATEST="ghcr.io/kettleofketchup/diceavatar-shim/dicebear-shim:latest"
             docker tag $TAG $LATEST
             docker push $LATEST
           fi

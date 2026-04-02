@@ -1,6 +1,6 @@
-# go-github-template
+# dicebear-shim
 
-go-github-template CLI tool.
+dicebear-shim CLI tool.
 
 <!--doc-start-->
 ## Installation
@@ -8,8 +8,8 @@ go-github-template CLI tool.
 ### From Source
 
 ```sh
-git clone gitlab.lan/go-github-template.git
-cd go-github-template
+git clone https://github.com/kettleofketchup/diceavatar-shim.git
+cd diceavatar-shim
 ./dev  # Bootstrap environment
 just build
 ```
@@ -17,21 +17,21 @@ just build
 ### Docker
 
 ```sh
-docker pull gitlab.lan:5050/go-github-template/go-github-template:latest
-docker run --rm gitlab.lan:5050/go-github-template/go-github-template:latest --help
+docker pull ghcr.io/kettleofketchup/diceavatar-shim/dicebear-shim:latest
+docker run --rm ghcr.io/kettleofketchup/diceavatar-shim/dicebear-shim:latest --help
 ```
 
 ## Usage
 
 ```sh
 # Show help
-./bin/go-github-template --help
+./bin/dicebear-shim --help
 
 # Show version
-./bin/go-github-template version
+./bin/dicebear-shim version
 
 # Use with config file
-./bin/go-github-template --config ./config/go-github-template.yaml
+./bin/dicebear-shim --config ./config/dicebear-shim.yaml
 ```
 
 ## Development
