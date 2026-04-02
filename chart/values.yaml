@@ -33,7 +33,7 @@ dicebear:
 
 shim:
   image:
-    repository: ghcr.io/kettleofketchup/dicebear-shim/dicebear-shim
+    repository: ghcr.io/kettleofketchup/dicebear-shim
     tag: "latest"
     pullPolicy: IfNotPresent
   port: 3001
