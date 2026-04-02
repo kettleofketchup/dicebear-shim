@@ -3,8 +3,9 @@
 # These recipes are called by GitLab CI / GitHub Actions
 
 TOOL_NAME := "dicebear-shim"
-TOOL_FOLDER := env_var("PWD") + "/src/" + TOOL_NAME
-BIN_DIR := env_var("PWD") + "/bin"
+PROJECT_ROOT := justfile_directory()
+TOOL_FOLDER := PROJECT_ROOT + "/src/" + TOOL_NAME
+BIN_DIR := PROJECT_ROOT + "/bin"
 
 VERSION := `git describe --tags --always 2>/dev/null || echo "dev"`
 COMMIT := `git rev-parse --short HEAD 2>/dev/null || echo "unknown"`
@@ -36,7 +37,7 @@ build:
 [group('cicd')]
 docker tag=DOCKER_TAG:
     @echo "Building Docker image..."
-    docker build \
+    cd {{ PROJECT_ROOT }} && docker build \
         --build-arg VERSION={{ VERSION }} \
         --build-arg COMMIT={{ COMMIT }} \
         --build-arg BUILD_DATE={{ DATE }} \
@@ -53,5 +54,5 @@ docker-push tag=DOCKER_TAG: (docker tag)
 [group('cicd')]
 pages:
     @echo "Building documentation..."
-    uv sync
-    uv run mkdocs build
+    cd {{ PROJECT_ROOT }} && uv sync
+    cd {{ PROJECT_ROOT }} && uv run mkdocs build
