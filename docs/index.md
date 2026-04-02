@@ -1,58 +1,43 @@
 # dicebear-shim
 
-Welcome to the dicebear-shim documentation.
+A lightweight Go reverse proxy that translates [Gravatar](https://gravatar.com) avatar URLs into [DICEbear](https://www.dicebear.com) API requests. Deploy alongside a self-hosted `dicebear/api` instance to serve procedurally generated avatars to any application that requests Gravatar URLs -- no internet access required.
 
-## Quick Start
-
-### Installation
-
-```sh
-# Bootstrap environment (installs just if needed)
-./dev
-
-# Build from source
-just build
-
-# Run
-./bin/dicebear-shim --help
-```
-
-### Version
-
-```sh
-./bin/dicebear-shim version
-```
-
-## Development
-
-### Build
-
-```sh
-just build          # Build binary
-just test           # Run tests
-just lint           # Run linter
-```
-
-### Documentation
-
-```sh
-just docs::serve    # Start dev server
-just docs::build    # Build static site
-```
-
-## Project Structure
+## How It Works
 
 ```
-dicebear-shim/
-├── src/dicebear-shim/    # Go source code
-│   ├── cmd/                # CLI commands
-│   ├── internal/           # Private packages
-│   └── version/            # Version info
-├── docs/                   # Documentation
-├── just/                   # Build recipes (modules)
-└── docker/                 # Docker configuration
+Client request:
+  GET /avatar/abc123?s=128&d=identicon
+
+Shim translates to:
+  GET /9.x/identicon/png?seed=abc123&size=128  ->  DICEbear API
+
+Response: deterministic PNG avatar
 ```
 
+```mermaid
+sequenceDiagram
+    participant App as Application
+    participant Shim as dicebear-shim
+    participant DB as dicebear/api
+
+    App->>Shim: GET /avatar/abc123?s=128&d=identicon
+    Note over Shim: Translate URL
+    Shim->>DB: GET /9.x/identicon/png?seed=abc123&size=128
+    DB-->>Shim: PNG image
+    Shim-->>App: PNG image (Cache-Control: public, max-age=86400)
+```
+
+### Style Mapping
+
+The shim maps Gravatar's `d=` (default) parameter to DICEbear styles:
+
+| Gravatar `d=` | DICEbear style |
+|----------------|---------------|
+| `identicon`    | `identicon`   |
+| `retro`        | `pixel-art`   |
+| `monsterid`    | `bottts`      |
+| `wavatar`      | `adventurer`  |
+| `robohash`     | `bottts`      |
+| `mp` / default | `shapes`      |
 
 {% include-markdown "../README.md" start="<!--doc-start-->" end="<!--doc-end-->" %}
-
