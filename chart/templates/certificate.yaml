@@ -1,0 +1,17 @@
+{{- if and .Values.gravatar.enabled .Values.gravatar.certificate.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "dicebear-shim.fullname" . }}-gravatar
+  labels:
+    {{- include "dicebear-shim.labels" . | nindent 4 }}
+spec:
+  secretName: {{ .Values.gravatar.certificate.secretName }}
+  issuerRef:
+    name: {{ .Values.gravatar.certificate.issuerRef.name }}
+    kind: {{ .Values.gravatar.certificate.issuerRef.kind }}
+  dnsNames:
+    {{- range .Values.gravatar.hosts }}
+    - {{ . }}
+    {{- end }}
+{{- end }}

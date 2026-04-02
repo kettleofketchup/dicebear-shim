@@ -1,0 +1,15 @@
+apiVersion: v2
+name: dicebear-shim
+description: Gravatar-compatible avatar service backed by DICEbear with optional CoreDNS and Traefik integration
+version: 0.1.0
+appVersion: "0.1.0"
+kubeVersion: ">=1.26.0-0"
+home: https://github.com/kettleofketchup/dicebear-shim
+sources:
+  - https://github.com/kettleofketchup/dicebear-shim
+keywords:
+  - avatar
+  - gravatar
+  - dicebear
+maintainers:
+  - name: KettleOfKetchup

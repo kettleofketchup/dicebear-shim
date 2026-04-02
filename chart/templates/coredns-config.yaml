@@ -1,0 +1,14 @@
+{{- if .Values.coredns.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.coredns.configMapName | default "coredns-custom" }}
+  namespace: {{ .Values.coredns.namespace | default "kube-system" }}
+  labels:
+    {{- include "dicebear-shim.labels" . | nindent 4 }}
+data:
+  dicebear-shim-gravatar.override: |
+    {{- range .Values.coredns.domains }}
+    rewrite name exact {{ . }} {{ $.Values.coredns.traefikService }} answer auto
+    {{- end }}
+{{- end }}

@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "dicebear-shim.fullname" . }}-shim
+  labels:
+    {{- include "dicebear-shim.labels" . | nindent 4 }}
+    app.kubernetes.io/component: shim
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "dicebear-shim.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: shim
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "dicebear-shim.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: shim
+    spec:
+      serviceAccountName: {{ include "dicebear-shim.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: shim
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.shim.image.repository }}:{{ .Values.shim.image.tag }}"
+          imagePullPolicy: {{ .Values.shim.image.pullPolicy }}
+          args:
+            - serve
+            - --listen
+            - ":{{ .Values.shim.port }}"
+            - --dicebear-url
+            - "http://{{ include "dicebear-shim.fullname" . }}-dicebear:{{ .Values.dicebear.port }}"
+            - --default-style
+            - {{ .Values.config.defaultStyle | quote }}
+            - --default-size
+            - {{ .Values.config.defaultSize | quote }}
+            - --cache-max-age
+            - {{ .Values.config.cacheMaxAge | quote }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.shim.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          {{- with .Values.shim.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

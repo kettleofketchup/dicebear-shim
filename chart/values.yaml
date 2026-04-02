@@ -1,0 +1,137 @@
+replicaCount: 1
+
+# =============================================================================
+# DICEbear API (avatar generator backend)
+# =============================================================================
+
+dicebear:
+  image:
+    repository: dicebear/api
+    tag: "3"
+    pullPolicy: IfNotPresent
+  port: 3000
+  env:
+    PNG_SIZE_MAX: "512"
+    JPEG_SIZE_MAX: "512"
+    WORKERS: "1"
+    AVIF: "0"
+    WEBP: "0"
+    JPEG: "0"
+    PNG_EXIF: "0"
+    JPEG_EXIF: "0"
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+# =============================================================================
+# Gravatar Shim (URL translator / reverse proxy)
+# =============================================================================
+
+shim:
+  image:
+    repository: ghcr.io/kettleofketchup/dicebear-shim/dicebear-shim
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  port: 3001
+  resources:
+    requests:
+      cpu: 25m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi
+
+# =============================================================================
+# Shim Configuration
+# =============================================================================
+
+config:
+  defaultStyle: identicon
+  defaultSize: "80"
+  cacheMaxAge: 86400
+
+# =============================================================================
+# Service
+# =============================================================================
+
+service:
+  type: ClusterIP
+  port: 3001
+
+# =============================================================================
+# CoreDNS Rewrite (intercept gravatar.com → Traefik)
+# =============================================================================
+
+coredns:
+  enabled: false
+  # Traefik service FQDN for DNS rewrite target
+  traefikService: traefik.traefik.svc.cluster.local
+  domains:
+    - gravatar.com
+    - www.gravatar.com
+  configMapName: coredns-custom
+  namespace: kube-system
+
+# =============================================================================
+# Gravatar Interception (Traefik IngressRoute for gravatar.com hosts)
+# =============================================================================
+
+gravatar:
+  enabled: false
+  hosts:
+    - gravatar.com
+    - www.gravatar.com
+  certificate:
+    enabled: false
+    issuerRef:
+      name: root-ca
+      kind: ClusterIssuer
+    secretName: dicebear-shim-gravatar-tls
+
+# =============================================================================
+# Traefik IngressRoute (direct access via subdomain)
+# =============================================================================
+
+ingressRoute:
+  enabled: false
+  host: ""
+  entryPoints:
+    - websecure
+  tls: {}
+  middlewares: []
+
+# =============================================================================
+# Common
+# =============================================================================
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  capabilities:
+    drop: ["ALL"]
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  allowPrivilegeEscalation: false
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

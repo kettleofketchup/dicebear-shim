@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "dicebear-shim.fullname" . }}-dicebear
+  labels:
+    {{- include "dicebear-shim.labels" . | nindent 4 }}
+    app.kubernetes.io/component: dicebear
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "dicebear-shim.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: dicebear
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "dicebear-shim.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: dicebear
+    spec:
+      serviceAccountName: {{ include "dicebear-shim.serviceAccountName" . }}
+      containers:
+        - name: dicebear
+          image: "{{ .Values.dicebear.image.repository }}:{{ .Values.dicebear.image.tag }}"
+          imagePullPolicy: {{ .Values.dicebear.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.dicebear.port }}
+              protocol: TCP
+          env:
+            {{- range $key, $value := .Values.dicebear.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /9.x/identicon/svg?seed=healthcheck
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /9.x/identicon/svg?seed=healthcheck
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: tmp-run
+              mountPath: /run
+            - name: tmp-tmp
+              mountPath: /tmp
+          {{- with .Values.dicebear.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: tmp-run
+          emptyDir: {}
+        - name: tmp-tmp
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
